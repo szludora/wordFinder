@@ -1,0 +1,26 @@
+# bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# virtual env
+venv/
+.env/
+.venv/
+
+# build
+build/
+dist/
+*.egg-info/
+
+# IDE
+.vscode/*
+!.vscode/launch.json
+.idea/
+
+# logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
