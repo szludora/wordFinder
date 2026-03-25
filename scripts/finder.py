@@ -45,4 +45,26 @@ def vertical_search(table: list[list[str]], words: list[str]) -> None:
 
 
 def diagonal_search(table: list[list[str]], words: list[str]) -> None:
-    pass
+    print("Diagonal search result:\n")
+
+    rows = len(table)
+    cols = len(table[0])
+
+    for word in words:
+        length = len(word)
+
+        # ↘ irány
+        for i in range(rows):
+            for j in range(cols):
+                if i + length <= rows and j + length <= cols:
+                    letters = [table[i+k][j+k] for k in range(length)]
+                    if "".join(letters) == word:
+                        print(f"↘ Found {word} at row {i+1}, col {j+1}")
+
+        # ↙ irány
+        for i in range(rows):
+            for j in range(cols):
+                if i + length <= rows and j - length >= -1:
+                    letters = [table[i+k][j-k] for k in range(length)]
+                    if "".join(letters) == word:
+                        print(f"↙ Found {word} at row {i+1}, col {j+1}")
