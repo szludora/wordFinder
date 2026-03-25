@@ -41,7 +41,29 @@ def horizontal_search(table: list[list[str]], words: list[str]) -> None:
 
 
 def vertical_search(table: list[list[str]], words: list[str]) -> None:
-    pass
+    print("Vertical search result:\n")
+
+    if not table or not table[0]:
+        print()
+        return
+
+    row_count = len(table)
+    col_count = len(table[0])
+
+    for col in range(col_count):
+        top_down = "".join(table[row][col] for row in range(row_count)).upper()
+        bottom_up = top_down[::-1]
+
+        for word in words:
+            if word in top_down:
+                print(f"↓ -> row {top_down.find(word)+1}. col: {col+1}: {word.capitalize()}")
+
+            if word in bottom_up:
+                print(
+                    f"↑ <- row {len(bottom_up) - bottom_up.find(word) - 1}. col: {col+1}: {word.capitalize()}"
+                )
+
+    print()
 
 
 def diagonal_search(table: list[list[str]], words: list[str]) -> None:
