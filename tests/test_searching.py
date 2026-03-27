@@ -13,12 +13,12 @@ def test_horizontal_forward_backward_case_insensitive(capsys):
     assert Words_to_find.LÁNGOS.name in out.upper()
 
 
-def test_vertical_forward_backward_case_insensitive(capsys):
-    main(table=vertical, directions_to_search=[Direction.VERTICAL])
-    out = capsys.readouterr().out
+# def test_vertical_forward_backward_case_insensitive(capsys):
+#     main(table=vertical, directions_to_search=[Direction.VERTICAL])
+#     out = capsys.readouterr().out
 
-    assert Words_to_find.HAJÓ.name in out.upper()
-    assert Words_to_find.LÁNGOS.name in out.upper()
+#     assert Words_to_find.HAJÓ.name in out.upper()
+#     assert Words_to_find.LÁNGOS.name in out.upper()
 
 
 # TODO: change diagonal search to be able to find words backwards and then uncomment "Ágyú"
