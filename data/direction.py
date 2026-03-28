@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import Enum, auto
 
 
 class Direction(Enum):
-    HORIZONTAL = "HORIZONTAL"
-    VERTICAL = "VERTICAL"
-    DIAGONAL = "DIAGONAL"
+    HORIZONTAL = auto()
+    VERTICAL = auto()
+    DIAGONAL = auto()

@@ -1,3 +1,5 @@
+import sys
+import io
 import data.datas as tables
 from data.direction import Direction
 from scripts.finder import find_words_in_table
@@ -11,6 +13,11 @@ _DIRECTIONS_TO_SEARCH = [
 
 
 def main(table=tables.TABLE_1, directions_to_search=_DIRECTIONS_TO_SEARCH) -> None:
+    if "pytest" not in sys.modules:
+        if isinstance(sys.stdout, io.TextIOWrapper):
+            sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
+        if isinstance(sys.stderr, io.TextIOWrapper):
+            sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8")
 
     print_formatted_table(table["table"])
 
