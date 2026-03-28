@@ -34,15 +34,52 @@ def horizontal_search(table: list[list[str]], words: list[str]) -> None:
             if word in f_row:
                 print(f"-> {i+1}. row {f_row.find(word)+1}. col: {word.capitalize()}")
             if word in b_row:
-                print(
-                    f"<- {i+1}. row {len(b_row) - b_row.find(word)-1}. col: {word.capitalize()}"
-                )
+                print(f"<- {i+1}. row {len(b_row) - b_row.find(word)-1}. col: {word.capitalize()}")
     print()
 
 
 def vertical_search(table: list[list[str]], words: list[str]) -> None:
     pass
 
-
 def diagonal_search(table: list[list[str]], words: list[str]) -> None:
-    pass
+    print("Diagonal search result:\n")
+
+    rows = len(table)
+    cols = len(table[0])
+
+    for word in words:
+        length = len(word)
+
+        # forward diagonal ↘
+        for i in range(rows):
+            for j in range(cols):
+                if i + length <= rows and j + length <= cols:
+                    letters = [table[i+k][j+k] for k in range(length)]
+                    if "".join(letters).upper() == word:
+                        print(f"↘ {i+1}. row {j+1}. col: {word.capitalize()}")
+
+        # backward diagonal ↖
+        for i in range(rows):
+            for j in range(cols):
+                if i - length >= -1 and j - length >= -1:
+                    letters = [table[i-k][j-k] for k in range(length)]
+                    if "".join(letters).upper() == word:
+                        print(f"↖ {i+1}. row {j+1}. col: {word.capitalize()}")
+
+        # forward diagonal ↙
+        for i in range(rows):
+            for j in range(cols):
+                if i + length <= rows and j - length >= -1:
+                    letters = [table[i+k][j-k] for k in range(length)]
+                    if "".join(letters).upper() == word:
+                        print(f"↙ {i+1}. row {j+1}. col: {word.capitalize()}")
+
+        # backward diagonal ↗
+        for i in range(rows):
+            for j in range(cols):
+                if i - length >= -1 and j + length <= cols:
+                    letters = [table[i-k][j+k] for k in range(length)]
+                    if "".join(letters).upper() == word:
+                        print(f"↗ {i+1}. row {j+1}. col: {word.capitalize()}")
+
+    print()
