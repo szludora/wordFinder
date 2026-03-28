@@ -85,3 +85,37 @@ TABLE_3 = {
         ["R", "X", "Y", "Z", "Q", "W", "A", "S", "D", "F", "G", "H", "J", "K"],
     ],
 }
+
+CONFIGURATION_1 = {
+    "minDimensionX": 13,
+    "minDimensionY": 13,
+    "requiredWords": [
+        "Gulyás",
+        "Pörkölt",
+        "Halászlé",
+        "Főzelék",
+        "Tarhonya",
+        "Kifli",
+        "Szalámi",
+        "ABCaabDdabc",
+    ],
+    "words": [
+        "Gulyás",
+        "Pörkölt",
+        "Halászlé",
+        "Somlói",
+        "Dobos",
+        "Rétes",
+        "Paprikás",
+        "Galuska",
+        "Pogácsa",
+        "Lecsó",
+        "Főzelék",
+        "Tarhonya",
+        "Kifli",
+        "Szalámi",
+        "ABCaabDdabc",
+    ],
+}
+
+
