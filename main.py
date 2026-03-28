@@ -3,7 +3,6 @@ import sys
 import data.datas as tables
 from data.direction import Direction
 from scripts.finder import find_words_in_table
-from scripts.finder_kmp import find_words_in_table_kmp
 from scripts.build_dynamic_data import build_dynamic_data
 from scripts.print_table import print_formatted_table
 import time
@@ -23,19 +22,21 @@ def main(table=tables.TABLE_1, directions_to_search=_DIRECTIONS_TO_SEARCH) -> No
         table=table["table"],
         words=table["words"],
         directions=directions_to_search,
+        isKMP=False
     )
 
     print(f"Elapsed time: {(time.time() - start):.2f} seconds")
 
-    print("##############################  - Alternative ALGORYTHM (KMP, Horizontal Only) - ##############################")
+    print("##############################  - Alternative ALGORYTHM (KMP) - ##############################")
     directions_to_search = [
         Direction.HORIZONTAL,
     ]
     start = time.time()
-    find_words_in_table_kmp(
+    find_words_in_table(
         table=table["table"],
         words=table["words"],
         directions=directions_to_search,
+        isKMP=True
     )
 
     print(f"Elapsed time: {(time.time() - start):.2f} seconds")
