@@ -42,7 +42,7 @@ def main(table=tables.TABLE_1, directions_to_search=_DIRECTIONS_TO_SEARCH) -> No
 
 
 if __name__ == "__main__":
-    use_custom_table: bool = "--custom" not in sys.argv
+    use_custom_table: bool = "--custom" in sys.argv
     if use_custom_table:
         build_dynamic_data(tables.CONFIGURATION_1)
         main(tables.CONFIGURATION_1)
