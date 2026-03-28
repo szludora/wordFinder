@@ -28,7 +28,9 @@ def main(table=tables.TABLE_1, directions_to_search=_DIRECTIONS_TO_SEARCH) -> No
     print(f"Elapsed time: {(time.time() - start):.2f} seconds")
 
     print("##############################  - Alternative ALGORYTHM (KMP, Horizontal Only) - ##############################")
-
+    directions_to_search = [
+        Direction.HORIZONTAL,
+    ]
     start = time.time()
     find_words_in_table_kmp(
         table=table["table"],
