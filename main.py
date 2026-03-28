@@ -31,6 +31,8 @@ def main(table=tables.TABLE_1, directions_to_search=_DIRECTIONS_TO_SEARCH) -> No
     print("##############################  - Alternative ALGORYTHM (KMP) - ##############################")
     directions_to_search = [
         Direction.HORIZONTAL,
+        Direction.VERTICAL,
+        Direction.DIAGONAL,
     ]
     start = time.time()
     find_words_in_table(

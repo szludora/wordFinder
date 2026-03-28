@@ -132,24 +132,43 @@ def search_kmp(text: str, pattern: str, lps: list[int]) -> list[int]:
     """
         Knuth–Morris–Pratt algorithm
         This algorythm search for the longest repeated prefix. Then, once a sequence proved to be wrong or a full match,
-        does not jump back to the original index to continue execution, but rather shift the index considering the lps.
+        does not continue the execution with the original index but rather increase it with
+        the value of how much of the current sequence sufix can be re-used in the next search as prefix.
+        So we shift the index with the value of the last entry of current LPS segment.
         If the values in the LPS are zeros, this approach is slightly slower than a naive algorythm (this is our case).
         If the values are usually greater than 0, this could significantly reduce search iteration count.
+        NOTE: In Python the KMP algorythm is heavily inefficient, as native Python code will be always slower than the str.find() method.
     """
     results = []
     pattern_len = len(pattern)
     if pattern_len == 0:
         return results
 
-    skip = pattern_len - lps[pattern_len - 1]  # KMP-informed skip distance after a match
-    start = 0
     text_len = len(text)
+    i = 0
+    j = 0
 
-    while start <= text_len - pattern_len:
-        pos = text.find(pattern, start)
-        if pos == -1:
-            break
-        results.append(pos)
-        start = pos + max(skip, 1)
+    while i < text_len:
+        if text[i] == pattern[j]:
+            i += 1
+            j += 1
+        if j == pattern_len:
+            results.append(i - j)
+            """
+                Magic happens here: If full match occurs, 
+                then the last x character (sufix), 
+                can be used as the first x character (prefix) in the next attempt.
+            """
+            j = lps[j - 1]
+        elif i < text_len and text[i] != pattern[j]:
+            if j != 0:
+                """
+                    Magic happens here: If fail occurs, 
+                    then the last x character (sufix), 
+                    can be used as the first x character (prefix) in the next attempt.
+                """
+                j = lps[j - 1]
+            else:
+                i += 1
 
     return results
