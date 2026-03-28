@@ -17,18 +17,21 @@ def build_dynamic_data(configuration: dict) -> None:
 
     words = [w.upper() for w in configuration["requiredWords"]]
 
+    """Ensure all the required words has a chance to fit into the table."""
     longest = max(len(w) for w in words) # length of the longest word
     cols = max(configuration["minDimensionX"], longest) # set cols so the longest word can fit
     rows = max(configuration["minDimensionY"], longest) # set rows so the longest word can fit
 
+    """Define empty start table"""
     table = [[EMPTY for _ in range(cols)] for _ in range(rows)]
 
+    """Try to add every word, indicate in terminal if a word didn't fit."""
     for word in words:
         placed = _try_place_word(table, word, rows, cols, max_attempts=200)
         if not placed:
             print(f"Warning: could not place '{word}' after max attempts.")
 
-    # Add random letter to the remaining empty cells
+    """Add random letters to the remaining empty cells."""
     for r in range(rows):
         for c in range(cols):
             if table[r][c] == EMPTY:
@@ -44,32 +47,39 @@ def _try_place_word(
     cols: int,
     max_attempts: int,
 ) -> bool:
+    """Ensure no infinite loop occurs in dense tables."""
     for _ in range(max_attempts):
         direction = random.choice(list(Direction))
-        dr, dc = random.choice(DELTAS[direction])
+        delta_row, delta_col = random.choice(DELTAS[direction])
 
-        if dr == 0:
-            r_lo, r_hi = 0, rows - 1
-        elif dr == 1:
-            r_lo, r_hi = 0, rows - len(word)
+        """Based on direction, delta and word length, define the min/max indexes we can work with."""
+        if delta_row == 0:
+            min_start_row_index, max__start_row_index = 0, rows - 1
+        elif delta_row == 1:
+            min_start_row_index, max__start_row_index = 0, rows - len(word)
         else:
-            r_lo, r_hi = len(word) - 1, rows - 1
+            min_start_row_index, max__start_row_index = len(word) - 1, rows - 1
 
-        if dc == 0:
-            c_lo, c_hi = 0, cols - 1
-        elif dc == 1:
-            c_lo, c_hi = 0, cols - len(word)
+        if delta_col == 0:
+            min_start_col_index, max_start_col_index = 0, cols - 1
+        elif delta_col == 1:
+            min_start_col_index, max_start_col_index = 0, cols - len(word)
         else:
-            c_lo, c_hi = len(word) - 1, cols - 1
+            min_start_col_index, max_start_col_index = len(word) - 1, cols - 1
 
-        if r_lo > r_hi or c_lo > c_hi:
+        if min_start_row_index > max__start_row_index or min_start_col_index > max_start_col_index:
             continue
 
-        start_r = random.randint(r_lo, r_hi)
-        start_c = random.randint(c_lo, c_hi)
+        """Pick a random start coordinate within the allowed range."""
+        start_r = random.randint(min_start_row_index, max__start_row_index)
+        start_c = random.randint(min_start_col_index, max_start_col_index)
 
-        if _can_place(table, word, start_r, start_c, dr, dc):
-            _do_place(table, word, start_r, start_c, dr, dc)
+        """
+        If the word's character sequence does not collide with an other already inserted word's character sequence, 
+        then insert the word.
+        """
+        if _can_place(table, word, start_r, start_c, delta_row, delta_col):
+            _do_place(table, word, start_r, start_c, delta_row, delta_col)
             return True
 
     return False
