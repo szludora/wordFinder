@@ -1,3 +1,5 @@
+import sys
+
 import data.datas as tables
 from data.direction import Direction
 from scripts.finder import find_words_in_table
@@ -38,5 +40,9 @@ def main(table=tables.TABLE_1, directions_to_search=_DIRECTIONS_TO_SEARCH) -> No
 
 
 if __name__ == "__main__":
-    build_dynamic_data(tables.CONFIGURATION_1)
-    main(tables.CONFIGURATION_1)
+    use_custom_table: bool = "--custom" not in sys.argv
+    if use_custom_table:
+        build_dynamic_data(tables.CONFIGURATION_1)
+        main(tables.CONFIGURATION_1)
+    else:
+        main()
