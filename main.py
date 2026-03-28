@@ -1,4 +1,5 @@
 import sys
+import json
 
 import data.datas as tables
 from data.direction import Direction
@@ -33,8 +34,8 @@ def main(table=tables.TABLE_1, directions_to_search=_DIRECTIONS_TO_SEARCH) -> No
     ]
     start = time.time()
     find_words_in_table(
-        table=table["table"],
-        words=table["words"],
+        table=table['table'],
+        words=table['words'],
         directions=directions_to_search,
         isKMP=True
     )
@@ -42,10 +43,20 @@ def main(table=tables.TABLE_1, directions_to_search=_DIRECTIONS_TO_SEARCH) -> No
     print(f"Elapsed time: {(time.time() - start):.2f} seconds")
 
 
+def get_config():
+    with open("config/config.json","r", encoding="utf-8") as f:
+        return json.load(f)
+
 if __name__ == "__main__":
-    use_custom_table: bool = "--custom" in sys.argv
-    if use_custom_table:
-        build_dynamic_data(tables.CONFIGURATION_1)
-        main(tables.CONFIGURATION_1)
+    use_custom_config: bool = "--config:" in sys.argv
+    if use_custom_config == False:
+        config = get_config()
+        if config:
+            if config["preDefinedConfig"] and len(config["preDefinedConfig"]) > 0:
+                main(table=getattr(tables,config["preDefinedConfig"]))
+            build_dynamic_data(config)
+            main(config)
+        else:
+            main()
     else:
         main()
