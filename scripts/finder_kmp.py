@@ -22,13 +22,19 @@ def find_words_in_table_kmp(
 
 
 def build_lps_list(pattern: str) -> list[int]:
-    """Build the KMP Longest Prefix Suffix table for a pattern."""
-    m = len(pattern)
-    lps = [0] * m
+    """
+        LPS: Longest Prefix Sufix
+        The longest first X character repeated for a second time in the given pattern.
+        A list of int is built:
+        'ABCaabDdabc' -> [0,0,0,1,1,0,0,0,1,2,3]
+        From this we know whenever a given pattern fails at index X what shift we should use to move the current search index.
+    """
+    pattern_len = len(pattern)
+    lps = [0] * pattern_len
     length = 0
     i = 1
 
-    while i < m:
+    while i < pattern_len:
         if pattern[i] == pattern[length]:
             length += 1
             lps[i] = length
@@ -42,31 +48,24 @@ def build_lps_list(pattern: str) -> list[int]:
     return lps
 
 
-def search_kmp_hybrid(text: str, pattern: str, lps: list[int]) -> list[int]:
+def search_kmp(text: str, pattern: str, lps: list[int]) -> list[int]:
     """
-    Find all occurrences of pattern in text.
-
-    Uses CPython's C-level str.find() for the actual character matching (fast),
-    and KMP's LPS table to calculate smart skip distances after each match.
-
-    For patterns with repeating prefix-suffix (e.g. "ABCABC", lps[-1]=3),
-    the skip after a match is (len - lps[-1]) instead of 1, avoiding redundant
-    calls to str.find() for positions that can't possibly match.
-
-    For patterns with no prefix-suffix overlap (lps[-1]=0, e.g. "RÉTES"),
-    the skip equals the full pattern length — same as naive, but still fast
-    because str.find() does the heavy lifting in C.
+        Knuth–Morris–Pratt algorithm
+        This algorythm search for the longest repeated prefix. Then, once a sequence proved to be wrong or a full match,
+        does not jump back to the original index to continue execution, but rather shift the index considering the lps.
+        If the values in the LPS are zeros, this approach is slightly slower than a naive algorythm (this is our case).
+        If the values are usually greater than 0, this could significantly reduce search iteration count.
     """
     results = []
-    m = len(pattern)
-    if m == 0:
+    pattern_len = len(pattern)
+    if pattern_len == 0:
         return results
 
-    skip = m - lps[m - 1]  # KMP-informed skip distance after a match
+    skip = pattern_len - lps[pattern_len - 1]  # KMP-informed skip distance after a match
     start = 0
     text_len = len(text)
 
-    while start <= text_len - m:
+    while start <= text_len - pattern_len:
         pos = text.find(pattern, start)
         if pos == -1:
             break
@@ -93,10 +92,10 @@ def horizontal_search(table: list[list[str]], words: list[str]) -> None:
         for word in words:
             lps = lps_cache[word]
 
-            for pos in search_kmp_hybrid(f_row, word, lps):
+            for pos in search_kmp(f_row, word, lps):
                 print(f"-> {i+1}. row {pos+1}. col: {word.capitalize()}")
 
-            for pos in search_kmp_hybrid(b_row, word, lps):
+            for pos in search_kmp(b_row, word, lps):
                 original_col = len(b_row) - pos
                 print(f"<- {i+1}. row {original_col}. col: {word.capitalize()}")
     print()
