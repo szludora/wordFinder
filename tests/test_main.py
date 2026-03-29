@@ -1,5 +1,4 @@
 from main import main
-from data.direction import Direction
 
 import os
 import subprocess

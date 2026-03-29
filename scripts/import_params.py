@@ -3,6 +3,11 @@ from data.direction import Direction
 import json
 
 def import_params(use_parameters_file: bool) -> Parameters:
+    """
+        Optionally read the parameters stored in the `params/parameters.json` file,
+        or provide the default parameters defined in the `data/parameters.py` file.
+        Directions parameter in `params/parameters.json` file expected to match the enum names, not the values.
+    """
     if use_parameters_file:
         print("Fetch parameters from params/parameters.json file")
         config = get_params()

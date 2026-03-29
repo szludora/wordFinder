@@ -76,8 +76,8 @@ def _try_place_word(
         start_c = random.randint(min_start_col_index, max_start_col_index)
 
         """
-        If the word's character sequence does not collide with an other already inserted word's character sequence, 
-        then insert the word.
+            If the word's character sequence does not collide with an other already inserted word's character sequence, 
+            then insert the word.
         """
         if _can_place(table, word, start_r, start_c, delta_row, delta_col):
             _do_place(table, word, start_r, start_c, delta_row, delta_col)
@@ -89,16 +89,16 @@ def _try_place_word(
 def _can_place(
     table: list[list[str]],
     word: str,
-    start_r: int,
-    start_c: int,
-    dr: int,
-    dc: int,
+    start_row: int,
+    start_col: int,
+    delta_row: int,
+    delta_col: int,
 ) -> bool:
 
     for i, ch in enumerate(word):
-        r = start_r + i * dr
-        c = start_c + i * dc
-        cell = table[r][c]
+        row = start_row + i * delta_row
+        col = start_col + i * delta_col
+        cell = table[row][col]
         if cell != EMPTY and cell != ch:
             return False
     return True
@@ -107,13 +107,13 @@ def _can_place(
 def _do_place(
     table: list[list[str]],
     word: str,
-    start_r: int,
-    start_c: int,
-    dr: int,
-    dc: int,
+    start_row: int,
+    start_col: int,
+    delta_row: int,
+    delta_col: int,
 ) -> None:
 
     for i, ch in enumerate(word):
-        r = start_r + i * dr
-        c = start_c + i * dc
-        table[r][c] = ch
+        row = start_row + i * delta_row
+        col = start_col + i * delta_col
+        table[row][col] = ch
