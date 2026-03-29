@@ -1,6 +1,7 @@
 import random
 
 from data.direction import Direction
+from data.parameters import Parameters
 
 LETTERS: str = "AÁBCDEÉFGHIÍJKLMNOÓÖŐPQRSTUÚÜŰVWXYZ"
 
@@ -13,14 +14,14 @@ DELTAS: dict = {
 }
 
 
-def build_dynamic_data(configuration: dict) -> None:
+def build_dynamic_data(params: Parameters) -> None:
 
-    words = [w.upper() for w in configuration["requiredWords"]]
+    words = [w.upper() for w in params.required_words]
 
     """Ensure all the required words has a chance to fit into the table."""
     longest = max(len(w) for w in words) # length of the longest word
-    cols = max(configuration["minDimensionX"], longest) # set cols so the longest word can fit
-    rows = max(configuration["minDimensionY"], longest) # set rows so the longest word can fit
+    cols = max(params.dynamic_table_min_x, longest) # set cols so the longest word can fit
+    rows = max(params.dynamic_table_min_y, longest) # set rows so the longest word can fit
 
     """Define empty start table"""
     table = [[EMPTY for _ in range(cols)] for _ in range(rows)]
@@ -37,7 +38,7 @@ def build_dynamic_data(configuration: dict) -> None:
             if table[r][c] == EMPTY:
                 table[r][c] = random.choice(LETTERS)
 
-    configuration["table"] = table
+    params.table = table
 
 
 def _try_place_word(

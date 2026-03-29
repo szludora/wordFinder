@@ -1,19 +1,18 @@
 from data.direction import Direction
+from data.parameters import Parameters
 
 
-def find_words_in_table(
-    table: list[list[str]], words: list[str], directions: list[Direction], isKMP: bool
-) -> None:
-    words_upper = [w.upper() for w in words]
+def find_words_in_table(params: Parameters) -> None:
+    words_upper = [w.upper() for w in params.words]
 
-    for direction in directions:
+    for direction in params.directions:
         match direction:
             case Direction.HORIZONTAL:
-                horizontal_search(table=table, words=words_upper, isKMP=isKMP)
+                horizontal_search(table=params.table, words=words_upper, use_kmp=params.use_kmp)
             case Direction.VERTICAL:
-                vertical_search(table=table, words=words_upper)
+                vertical_search(table=params.table, words=words_upper)
             case Direction.DIAGONAL:
-                diagonal_search(table=table, words=words_upper)
+                diagonal_search(table=params.table, words=words_upper)
             case _:
                 raise NotImplementedError(
                     f"Searching in {direction} direction is not implemented."
@@ -24,9 +23,9 @@ def concate_letters(letters: list[str]) -> str:
     return "".join(letters).upper()
 
 
-def horizontal_search(table: list[list[str]], words: list[str], isKMP: bool) -> None:
+def horizontal_search(table: list[list[str]], words: list[str], use_kmp: bool) -> None:
     print("Horizontal search result:\n")
-    if isKMP:
+    if use_kmp:
         lps_cache = {word: build_lps_list(word) for word in words}
         for i, raw_row in enumerate(table):
             f_row = concate_letters(raw_row)  # forward row

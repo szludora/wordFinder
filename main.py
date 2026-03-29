@@ -1,64 +1,24 @@
 import sys
-import json
-
-import data.datas as tables
-from data.direction import Direction
-from scripts.finder import find_words_in_table
-from scripts.build_dynamic_data import build_dynamic_data
-from scripts.print_table import print_formatted_table
 import time
 
-_DIRECTIONS_TO_SEARCH = [
-    Direction.HORIZONTAL,
-    Direction.VERTICAL,
-    Direction.DIAGONAL,
-]
+from data.parameters import Parameters
+from scripts.finder import find_words_in_table
+from scripts.build_dynamic_data import build_dynamic_data
+from scripts.import_params import import_params
+from scripts.print_table import print_formatted_table
 
+def main(parameters: Parameters) -> None:
 
-def main(table=tables.TABLE_1, directions_to_search=_DIRECTIONS_TO_SEARCH) -> None:
+    if params.build_dynamic_table:
+        build_dynamic_data(parameters)
 
-    print_formatted_table(table["table"])
+    print_formatted_table(parameters.table)
     start = time.time()
-    find_words_in_table(
-        table=table["table"],
-        words=table["words"],
-        directions=directions_to_search,
-        isKMP=False
-    )
-
+    find_words_in_table(parameters)
     print(f"Elapsed time: {(time.time() - start):.2f} seconds")
 
-    print("##############################  - Alternative ALGORYTHM (KMP) - ##############################")
-    directions_to_search = [
-        Direction.HORIZONTAL,
-        Direction.VERTICAL,
-        Direction.DIAGONAL,
-    ]
-    start = time.time()
-    find_words_in_table(
-        table=table['table'],
-        words=table['words'],
-        directions=directions_to_search,
-        isKMP=True
-    )
-
-    print(f"Elapsed time: {(time.time() - start):.2f} seconds")
-
-
-def get_config():
-    with open("config/config.json","r", encoding="utf-8") as f:
-        return json.load(f)
 
 if __name__ == "__main__":
-    use_custom_config: bool = "--config:" in sys.argv
-    if use_custom_config == False:
-        config = get_config()
-        if config:
-            if config["preDefinedConfig"] and len(config["preDefinedConfig"]) > 0:
-                main(table=getattr(tables,config["preDefinedConfig"]))
-            build_dynamic_data(config)
-            main(config)
-        else:
-            main()
-    else:
-        main()
+    use_custom_params: bool = "--params:" in sys.argv
+    params: Parameters = import_params(True)
+    main(params)

@@ -1,7 +1,13 @@
 {
-  "preDefinedConfig": "TABLE_1",
+  "buildTable": true,
+  "useKMP": true,
   "minDimensionX": 20,
   "minDimensionY": 20,
+  "directions": [
+        "HORIZONTAL",
+        "VERTICAL",
+        "DIAGONAL"
+    ],
   "requiredWords": [
         "Gulyás",
         "Pörkölt",
