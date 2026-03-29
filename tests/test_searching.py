@@ -46,8 +46,10 @@ def test_horizontal_forward_backward_case_insensitive_dynamic_table(capsys):
     out = capsys.readouterr().out
 
     assert len(params.table) == 15
+    assert len(params.table[1]) == 20
     assert Words_to_find.HAJÓ.name in out.upper()
     assert Words_to_find.LÁNGOS.name in out.upper()
+    assert Words_to_find.ÁGYÚ.name not in out.upper()
 
 
 # def test_vertical_forward_backward_case_insensitive(capsys):
