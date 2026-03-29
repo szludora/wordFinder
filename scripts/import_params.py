@@ -20,7 +20,7 @@ def import_params(use_parameters_file: bool) -> Parameters:
         if "words" in config:
             result.words = config["words"]
         if "directions" in config:
-            result.directions = [Direction(d) for d in config["directions"]]
+            result.directions = [Direction[d] for d in config["directions"]]
         return result
     else:
         print("Use default parameters.")
