@@ -25,6 +25,6 @@ def main(parameters: Parameters) -> None:
 
 
 if __name__ == "__main__":
-    use_custom_params: bool = "--params:" in sys.argv
+    use_custom_params: bool = '--params' in sys.argv
     params: Parameters = import_params(use_custom_params)
     main(params)
