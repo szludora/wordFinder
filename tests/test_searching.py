@@ -1,4 +1,7 @@
+from pygments.lexer import words
+
 from data.direction import Direction
+from data.parameters import Parameters
 from main import main
 
 
@@ -6,9 +9,43 @@ from enum import Enum
 
 
 def test_horizontal_forward_backward_case_insensitive(capsys):
-    main(table=horizontal, directions_to_search=[Direction.HORIZONTAL])
+    params: Parameters = Parameters()
+    params.table = horizontal["table"]
+    params.directions = [Direction.HORIZONTAL]
+    params.words = [Words_to_find.HAJÓ.name, Words_to_find.LÁNGOS.name, Words_to_find.ÁGYÚ.name,]
+    main(params)
     out = capsys.readouterr().out
 
+    assert Words_to_find.HAJÓ.name in out.upper()
+    assert Words_to_find.LÁNGOS.name in out.upper()
+
+
+def test_horizontal_forward_backward_case_insensitive_kmp(capsys):
+    params: Parameters = Parameters()
+    params.table = horizontal["table"]
+    params.directions = [Direction.HORIZONTAL]
+    params.words = [Words_to_find.HAJÓ.name, Words_to_find.LÁNGOS.name, Words_to_find.ÁGYÚ.name,]
+    params.use_kmp = True
+    main(params)
+    out = capsys.readouterr().out
+
+    assert Words_to_find.HAJÓ.name in out.upper()
+    assert Words_to_find.LÁNGOS.name in out.upper()
+    assert Words_to_find.ÁGYÚ.name not in out.upper()
+
+
+# Note: Dynamic table might insert words in all three directions. Without Vertical search implemented, this one might fail.
+def test_horizontal_forward_backward_case_insensitive_dynamic_table(capsys):
+    params: Parameters = Parameters()
+    params.words = [Words_to_find.HAJÓ.name, Words_to_find.LÁNGOS.name, Words_to_find.ÁGYÚ.name,]
+    params.required_words = [Words_to_find.HAJÓ.name, Words_to_find.LÁNGOS.name, ]
+    params.dynamic_table_min_x = 20
+    params.dynamic_table_min_y = 15
+    params.build_dynamic_table = True
+    main(params)
+    out = capsys.readouterr().out
+
+    assert len(params.table) == 15
     assert Words_to_find.HAJÓ.name in out.upper()
     assert Words_to_find.LÁNGOS.name in out.upper()
 
@@ -22,7 +59,11 @@ def test_horizontal_forward_backward_case_insensitive(capsys):
 
 
 def test_diagonal_forward_backward_case_insensitive(capsys):
-    main(table=diagonal, directions_to_search=[Direction.DIAGONAL])
+    params: Parameters = Parameters()
+    params.table = diagonal["table"]
+    params.directions = [Direction.DIAGONAL]
+    params.words = [Words_to_find.HAJÓ.name, Words_to_find.LÁNGOS.name, Words_to_find.ÁGYÚ.name, ]
+    main(params)
     out = capsys.readouterr().out
 
     assert Words_to_find.HAJÓ.name in out.upper()

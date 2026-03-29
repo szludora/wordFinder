@@ -2,7 +2,7 @@
   "buildTable": true,
   "useKMP": true,
   "minDimensionX": 20,
-  "minDimensionY": 20,
+  "minDimensionY": 15,
   "directions": [
         "HORIZONTAL",
         "VERTICAL",

@@ -9,7 +9,7 @@ from scripts.print_table import print_formatted_table
 
 def main(parameters: Parameters) -> None:
 
-    if params.build_dynamic_table:
+    if parameters.build_dynamic_table:
         build_dynamic_data(parameters)
 
     print_formatted_table(parameters.table)
@@ -20,5 +20,5 @@ def main(parameters: Parameters) -> None:
 
 if __name__ == "__main__":
     use_custom_params: bool = "--params:" in sys.argv
-    params: Parameters = import_params(True)
+    params: Parameters = import_params(use_custom_params)
     main(params)
