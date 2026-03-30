@@ -18,6 +18,8 @@ def test_main_with_params_json():
         os.chdir(ROOT_DIR)
         params = import_params(True)
         main(params)
+        assert len(params.table) == 15
+        assert len(params.table[0]) == 20
     finally:
         os.chdir(original_dir)
 
@@ -27,5 +29,7 @@ def test_main_with_params_default():
         os.chdir(ROOT_DIR)
         params = import_params(False)
         main(params)
+        assert len(params.table) == 13
+        assert len(params.table[0]) == 13
     finally:
         os.chdir(original_dir)
