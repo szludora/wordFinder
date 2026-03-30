@@ -56,12 +56,10 @@ def vertical_search(table: list[list[str]], words: list[str]) -> None:
 
         for word in words:
             if word in top_down:
-                print(f"↓ -> row {top_down.find(word)+1}. col: {col+1}: {word.capitalize()}")
+                print(f"↓ -> {col+1}. row {top_down.find(word)+1}. col: {word.capitalize()}")
 
             if word in bottom_up:
-                print(
-                    f"↑ <- row {len(bottom_up) - bottom_up.find(word) - 1}. col: {col+1}: {word.capitalize()}"
-                )
+                print(f"↑ <- {col+1}. row {len(bottom_up) - bottom_up.find(word) - 1}. col: {word.capitalize()}")
 
     print()
 
