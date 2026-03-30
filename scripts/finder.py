@@ -37,9 +37,10 @@ def horizontal_search(table: list[list[str]], words: list[str], use_kmp: bool) -
                 for pos in search_kmp(f_row, word, lps):
                     print(f"-> {i + 1}. row {pos + 1}. col: {word.capitalize()}")
 
-                for pos in search_kmp(b_row, word, lps):
-                    original_col = len(b_row) - pos
-                    print(f"<- {i + 1}. row {original_col}. col: {word.capitalize()}")
+                if word != word[::-1]:  # Exclude backward search for palindrome words
+                    for pos in search_kmp(b_row, word, lps):
+                        original_col = len(b_row) - pos
+                        print(f"<- {i + 1}. row {original_col}. col: {word.capitalize()}")
         print()
     else:
         for i, raw_row in enumerate(table):
@@ -147,7 +148,7 @@ def search_kmp(text: str, pattern: str, lps: list[int]) -> list[int]:
     i = 0
     j = 0
 
-    while i < text_len:
+    while text_len - i < pattern_len - j: # Skip last iterations at row end if word can not fit anymore
         if text[i] == pattern[j]:
             i += 1
             j += 1
