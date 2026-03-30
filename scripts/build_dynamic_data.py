@@ -28,7 +28,7 @@ def build_dynamic_data(params: Parameters) -> None:
 
     """Try to add every word, indicate in terminal if a word didn't fit."""
     for word in words:
-        placed = _try_place_word(table, word, rows, cols, max_attempts=200)
+        placed = _try_place_word(table, word, rows, cols, params.insert_directions, max_attempts=200)
         if not placed:
             print(f"Warning: could not place '{word}' after max attempts.")
 
@@ -46,11 +46,12 @@ def _try_place_word(
     word: str,
     rows: int,
     cols: int,
+    directions: list,
     max_attempts: int,
 ) -> bool:
     """Ensure no infinite loop occurs in dense tables."""
     for _ in range(max_attempts):
-        direction = random.choice(list(Direction))
+        direction = random.choice(directions)
         delta_row, delta_col = random.choice(DELTAS[direction])
 
         """Based on direction, delta and word length, define the min/max indexes we can work with."""

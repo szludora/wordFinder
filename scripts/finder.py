@@ -148,7 +148,8 @@ def search_kmp(text: str, pattern: str, lps: list[int]) -> list[int]:
     i = 0
     j = 0
 
-    while text_len - i < pattern_len - j: # Skip last iterations at row end if word can not fit anymore
+    # while i < text_len:
+    while not (text_len - i < pattern_len - j): # Skip last iterations at row end if word can not fit anymore
         if text[i] == pattern[j]:
             i += 1
             j += 1

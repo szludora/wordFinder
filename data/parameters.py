@@ -16,3 +16,8 @@ class Parameters:
     dynamic_table_min_x: int
     dynamic_table_min_y: int
     required_words: list[str]
+    insert_directions: list[Direction] = [
+    Direction.HORIZONTAL,
+    Direction.VERTICAL,
+    Direction.DIAGONAL,
+]

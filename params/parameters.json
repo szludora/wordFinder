@@ -8,6 +8,11 @@
         "VERTICAL",
         "DIAGONAL"
     ],
+  "insert_directions": [
+        "HORIZONTAL",
+        "VERTICAL",
+        "DIAGONAL"
+    ],
   "requiredWords": [
         "Gulyás",
         "Pörkölt",
