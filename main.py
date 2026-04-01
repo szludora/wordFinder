@@ -19,13 +19,15 @@ def main(table=tables.TABLE_1, directions_to_search=_DIRECTIONS_TO_SEARCH) -> No
         if isinstance(sys.stderr, io.TextIOWrapper):
             sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8")
 
-    print_formatted_table(table["table"])
-
-    find_words_in_table(
+    all_forward, all_backward  = find_words_in_table(
         table=table["table"],
         words=table["words"],
         directions=directions_to_search,
     )
+
+    print_formatted_table(table["table"], all_forward, all_backward)
+
+
 
 
 if __name__ == "__main__":
