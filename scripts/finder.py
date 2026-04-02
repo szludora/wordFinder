@@ -51,7 +51,7 @@ def horizontal_search(table: list[list[str]], words: list[str], use_kmp: bool) -
                 if word in f_row:
                     print(f"-> {i + 1}. row {f_row.find(word) + 1}. col: {word.capitalize()}")
                 if word in b_row:
-                    print(f"<- {i + 1}. row {len(b_row) - b_row.find(word) - 1}. col: {word.capitalize()}")
+                    print(f"<- {i + 1}. row {len(b_row) - b_row.find(word)}. col: {word.capitalize()}")
         print()
 
 
