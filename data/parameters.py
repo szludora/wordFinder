@@ -5,8 +5,8 @@ from data.direction import Direction
 class Parameters:
     use_kmp: bool = False
     build_dynamic_table: bool = False
-    table: list[list[str]] = tables.TABLE_2["table"]
-    words: list[str] = tables.TABLE_2["words"]
+    table: list[list[str]] = tables.TABLE_1["table"]
+    words: list[str] = tables.TABLE_1["words"]
     directions: list[Direction] = [
     Direction.HORIZONTAL,
     Direction.VERTICAL,
