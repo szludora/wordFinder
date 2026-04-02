@@ -34,9 +34,7 @@ def horizontal_search(table: list[list[str]], words: list[str]) -> None:
             if word in f_row:
                 print(f"-> {i+1}. row {f_row.find(word)+1}. col: {word.capitalize()}")
             if word in b_row:
-                print(
-                    f"<- {i+1}. row {len(b_row) - b_row.find(word)-1}. col: {word.capitalize()}"
-                )
+                print(f"<- {i+1}. row {len(b_row) - b_row.find(word)-1}. col: {word.capitalize()}")
     print()
 
 
@@ -59,7 +57,7 @@ def vertical_search(table: list[list[str]], words: list[str]) -> None:
                 print(f"↓ -> {col+1}. row {top_down.find(word)+1}. col: {word.capitalize()}")
 
             if word in bottom_up:
-                print(f"↑ <- {col+1}. row {len(bottom_up) - bottom_up.find(word) - 1}. col: {word.capitalize()}")
+                print(f"↑ {len(bottom_up) - bottom_up.find(word)}. row {col+1}. col: {word.capitalize()}")
 
     print()
 
