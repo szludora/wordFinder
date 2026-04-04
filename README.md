@@ -10,8 +10,11 @@ The repository is organized for high maintainability and clarity:
 - **`data/`**:
   - `datas.py`: Contains the word lists, grids, or data definitions.
   - `direction.py`: Defines search orientations using Python **Enums**.
+  - `parameters.py`: Defines the parameters for the word search.
 - **`scripts/`**:
   - `finder.py`: The core search engine and matching algorithms.
+  - `build_dynamic_data.py`: A utility for generating dynamic tables.
+  - `import_params.py`: Handles importing and validating parameters from external sources (e.g., JSON, YAML).
   - `print_table.py`: Utilities for formatting and displaying results in the terminal.
 - **`tests/`**: A dedicated suite using `pytest` to ensure search accuracy.
   - `test_main.py`: Functional tests for the main application flow.
@@ -25,11 +28,14 @@ The repository is organized for high maintainability and clarity:
 - **Structural Pattern Matching:** Utilizes Python 3.10+ `match-case` statements for clean and readable direction dispatching.
 - **Type-Safe Directions:** Uses `Enum` for handling orientations, significantly reducing string-based errors.
 - **Multi-Directional Search:** 
-  - **Horizontal:** Efficient string-based searching (forward and backward).
+  - **Horizontal:** Efficient string-based searching (forward and backward), alternative KMP algorithm.
   - **Diagonal:** Comprehensive 4-way diagonal scanning (↘, ↖, ↙, ↗).
   - **Vertical:** Comprehensive 2-way diagonal scanning (^, v).
 - **Clean Visualization:** Results are formatted into a readable, professional table for the terminal via `print_table.py`.
 - **Automated Testing:** High reliability thanks to integrated unit tests in the `tests/` directory.
+- **Dynamic Data Generation:** The `build_dynamic_data.py` script allows for easy creation of new tables and datasets for testing or demonstration purposes.
+- **Parameter Importing:** The `import_params.py` module supports flexible configuration through external files, making it easy to adjust search parameters without modifying code.
+- **Color-Coded Output:** Uses `colorama` to enhance terminal output, making it easier to distinguish between forward and backward matches.
 
 ---
 
