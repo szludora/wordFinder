@@ -127,7 +127,9 @@ def diagonal_search(table: list[list[str]], words: list[str]) -> tuple[set, set]
                 if i + length <= rows and j + length <= cols:
                     letters = [table[i+k][j+k] for k in range(length)]
                     if "".join(letters).upper() == word:
-                        print(f"↘ {i+1}. row {j+1}. col: {word.capitalize()}")
+                        for k in range(length):
+                            forward_positions.add((i+k, j+k))
+                        print(Fore.GREEN + f"↘ {i+1}. row {j+1}. col: {word.capitalize()}" + Style.RESET_ALL)
 
         # backward diagonal ↖
         for i in range(rows):
@@ -135,26 +137,32 @@ def diagonal_search(table: list[list[str]], words: list[str]) -> tuple[set, set]
                 if i - length >= -1 and j - length >= -1:
                     letters = [table[i-k][j-k] for k in range(length)]
                     if "".join(letters).upper() == word:
-                        print(f"↖ {i+1}. row {j+1}. col: {word.capitalize()}")
+                        for k in range(length):
+                            backward_positions.add((i-k, j-k))
+                        print(Fore.YELLOW + f"↖ {i+1}. row {j+1}. col: {word.capitalize()}" + Style.RESET_ALL)
 
-        # forward diagonal ↙
+        # backward diagonal ↙
         for i in range(rows):
             for j in range(cols):
                 if i + length <= rows and j - length >= -1:
                     letters = [table[i+k][j-k] for k in range(length)]
                     if "".join(letters).upper() == word:
-                        print(f"↙ {i+1}. row {j+1}. col: {word.capitalize()}")
+                        for k in range(length):
+                            backward_positions.add((i+k, j-k))
+                        print(Fore.YELLOW + f"↙ {i+1}. row {j+1}. col: {word.capitalize()}" + Style.RESET_ALL)
 
-        # backward diagonal ↗
+        # forward diagonal ↗
         for i in range(rows):
             for j in range(cols):
                 if i - length >= -1 and j + length <= cols:
                     letters = [table[i-k][j+k] for k in range(length)]
                     if "".join(letters).upper() == word:
-                        print(f"↗ {i+1}. row {j+1}. col: {word.capitalize()}")
+                        for k in range(length):
+                            forward_positions.add((i-k, j+k))
+                        print(Fore.GREEN + f"↗ {i+1}. row {j+1}. col: {word.capitalize()}" + Style.RESET_ALL)
 
     print()
-    return set(), set()
+    return forward_positions, backward_positions
 
 def build_lps_list(pattern: str) -> list[int]:
     """
