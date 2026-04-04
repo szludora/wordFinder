@@ -56,7 +56,27 @@ def horizontal_search(table: list[list[str]], words: list[str], use_kmp: bool) -
 
 
 def vertical_search(table: list[list[str]], words: list[str]) -> None:
-    pass
+    print("Vertical search result:\n")
+
+    if not table or not table[0]:
+        print()
+        return
+
+    row_count = len(table)
+    col_count = len(table[0])
+
+    for col in range(col_count):
+        top_down = "".join(table[row][col] for row in range(row_count)).upper()
+        bottom_up = top_down[::-1]
+
+        for word in words:
+            if word in top_down:
+                print(f"↓ {col+1}. row {top_down.find(word)+1}. col: {word.capitalize()}")
+
+            if word in bottom_up:
+                print(f"↑ {len(bottom_up) - bottom_up.find(word)}. row {col+1}. col: {word.capitalize()}")
+
+    print()
 
 def diagonal_search(table: list[list[str]], words: list[str]) -> None:
     print("Diagonal search result:\n")

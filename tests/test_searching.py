@@ -157,13 +157,16 @@ def test_dynamic_table_test_negative(capsys):
     assert Words_to_find.HAJÓ.name in out.upper()
     assert Words_to_find.LÁNGOS.name in out.upper()
 
+def test_vertical_forward_backward_case_insensitive(capsys):
+    params: Parameters = Parameters()
+    params.table = vertical["table"]
+    params.directions = [Direction.VERTICAL]
+    params.words = [Words_to_find.HAJÓ.name, Words_to_find.LÁNGOS.name, Words_to_find.ÁGYÚ.name,]
+    main(params)
+    out = capsys.readouterr().out
 
-# def test_vertical_forward_backward_case_insensitive(capsys):
-#     main(table=vertical, directions_to_search=[Direction.VERTICAL])
-#     out = capsys.readouterr().out
-
-#     assert Words_to_find.HAJÓ.name in out.upper()
-#     assert Words_to_find.LÁNGOS.name in out.upper()
+    assert Words_to_find.HAJÓ.name in out.upper()
+    assert Words_to_find.LÁNGOS.name in out.upper()
 
 
 def test_diagonal_forward_backward_case_insensitive(capsys):
