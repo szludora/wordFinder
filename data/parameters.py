@@ -3,7 +3,7 @@ from data.direction import Direction
 
 
 class Parameters:
-    use_kmp: bool = False
+    use_kmp: bool = True
     build_dynamic_table: bool = False
     table: list[list[str]] = tables.TABLE_1["table"]
     words: list[str] = tables.TABLE_1["words"]

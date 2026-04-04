@@ -8,7 +8,7 @@ from scripts.build_dynamic_data import build_dynamic_data
 from scripts.import_params import import_params
 from scripts.print_table import print_formatted_table
 
-def main(parameters: Parameters) -> None:
+def main(parameters: Parameters) -> tuple[set, set]:
     if "pytest" not in sys.modules:
         if isinstance(sys.stdout, io.TextIOWrapper):
             sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
@@ -18,10 +18,13 @@ def main(parameters: Parameters) -> None:
     if parameters.build_dynamic_table:
         build_dynamic_data(parameters)
 
-    print_formatted_table(parameters.table)
     start = time.time()
-    find_words_in_table(parameters)
+    all_forward, all_backward  = find_words_in_table(parameters)
     print(f"Elapsed time: {(time.time() - start):.2f} seconds")
+
+    print_formatted_table(parameters.table, all_forward, all_backward)
+
+
 
 
 if __name__ == "__main__":

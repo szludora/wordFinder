@@ -1,30 +1,43 @@
 from data.direction import Direction
 from data.parameters import Parameters
+from colorama import Fore, Style, init
+init()
 
 
 def find_words_in_table(params: Parameters) -> None:
     words_upper = [w.upper() for w in params.words]
-
+    all_forward = set()
+    all_backward = set()
     for direction in params.directions:
         match direction:
             case Direction.HORIZONTAL:
-                horizontal_search(table=params.table, words=words_upper, use_kmp=params.use_kmp)
+                fwd, bwd = horizontal_search(table=params.table, words=words_upper, use_kmp=params.use_kmp)
+                all_forward.update(fwd)
+                all_backward.update(bwd)
             case Direction.VERTICAL:
-                vertical_search(table=params.table, words=words_upper)
+                fwd, bwd = vertical_search(table=params.table, words=words_upper)
+                all_forward.update(fwd)
+                all_backward.update(bwd)
             case Direction.DIAGONAL:
-                diagonal_search(table=params.table, words=words_upper)
+                fwd, bwd = diagonal_search(table=params.table, words=words_upper)
+                all_forward.update(fwd)
+                all_backward.update(bwd)
             case _:
                 raise NotImplementedError(
                     f"Searching in {direction} direction is not implemented."
                 )
 
+    return all_forward, all_backward
 
 def concate_letters(letters: list[str]) -> str:
     return "".join(letters).upper()
 
 
-def horizontal_search(table: list[list[str]], words: list[str], use_kmp: bool) -> None:
+def horizontal_search(table: list[list[str]], words: list[str], use_kmp: bool) -> tuple[set, set]:
     print("Horizontal search result:\n")
+    forward_positions = set()
+    backward_positions = set()
+    
     if use_kmp:
         lps_cache = {word: build_lps_list(word) for word in words}
         for i, raw_row in enumerate(table):
@@ -35,12 +48,17 @@ def horizontal_search(table: list[list[str]], words: list[str], use_kmp: bool) -
                 lps = lps_cache[word]
 
                 for pos in search_kmp(f_row, word, lps):
-                    print(f"-> {i + 1}. row {pos + 1}. col: {word.capitalize()}")
+                    start = f_row.find(word)
+                    for k in range(len(word)):
+                        forward_positions.add((i, start + k))
+                    print(Fore.GREEN + f"-> {i + 1}. row {pos + 1}. col: {word.capitalize()}" + Style.RESET_ALL)
 
                 if word != word[::-1]:  # Exclude backward search for palindrome words
                     for pos in search_kmp(b_row, word, lps):
+                        for k in range(len(word)):
+                            backward_positions.add((i, len(b_row) - pos - k - 1))
                         original_col = len(b_row) - pos
-                        print(f"<- {i + 1}. row {original_col}. col: {word.capitalize()}")
+                        print(Fore.YELLOW + f"<- {i + 1}. row {original_col}. col: {word.capitalize()}" + Style.RESET_ALL)
         print()
     else:
         for i, raw_row in enumerate(table):
@@ -49,15 +67,24 @@ def horizontal_search(table: list[list[str]], words: list[str], use_kmp: bool) -
 
             for word in words:
                 if word in f_row:
-                    print(f"-> {i + 1}. row {f_row.find(word) + 1}. col: {word.capitalize()}")
+                    start = f_row.find(word)
+                    for k in range(len(word)):
+                        forward_positions.add((i, start + k))
+                    print(Fore.GREEN + f"-> {i + 1}. row {f_row.find(word) + 1}. col: {word.capitalize()}" + Style.RESET_ALL)
                 if word in b_row:
-                    print(f"<- {i + 1}. row {len(b_row) - b_row.find(word) - 1}. col: {word.capitalize()}")
+                    start = b_row.find(word)
+                    for k in range(len(word)):
+                        backward_positions.add((i, len(b_row) - start - k - 1))
+                    print(Fore.YELLOW + f"<- {i + 1}. row {len(b_row) - b_row.find(word) - 1}. col: {word.capitalize()}" + Style.RESET_ALL)
         print()
+    return forward_positions, backward_positions
 
 
-def vertical_search(table: list[list[str]], words: list[str]) -> None:
+def vertical_search(table: list[list[str]], words: list[str]) -> tuple[set, set]:
     print("Vertical search result:\n")
-
+    forward_positions = set()
+    backward_positions = set()
+    
     if not table or not table[0]:
         print()
         return
@@ -71,16 +98,23 @@ def vertical_search(table: list[list[str]], words: list[str]) -> None:
 
         for word in words:
             if word in top_down:
-                print(f"↓ {col+1}. row {top_down.find(word)+1}. col: {word.capitalize()}")
+                for k in range(len(word)):
+                    forward_positions.add((top_down.find(word) + k, col))
+                print(Fore.GREEN + f"↓ {col+1}. row {top_down.find(word)+1}. col: {word.capitalize()}" + Style.RESET_ALL)
 
             if word in bottom_up:
-                print(f"↑ {len(bottom_up) - bottom_up.find(word)}. row {col+1}. col: {word.capitalize()}")
+                for k in range(len(word)):
+                    backward_positions.add((row_count - bottom_up.find(word) - k - 1, col))
+                print(Fore.YELLOW + f"↑ {len(bottom_up) - bottom_up.find(word)}. row {col+1}. col: {word.capitalize()}" + Style.RESET_ALL)
 
     print()
+    return forward_positions, backward_positions
 
-def diagonal_search(table: list[list[str]], words: list[str]) -> None:
+def diagonal_search(table: list[list[str]], words: list[str]) -> tuple[set, set]:
     print("Diagonal search result:\n")
-
+    forward_positions = set()
+    backward_positions = set()
+    
     rows = len(table)
     cols = len(table[0])
 
@@ -120,6 +154,7 @@ def diagonal_search(table: list[list[str]], words: list[str]) -> None:
                         print(f"↗ {i+1}. row {j+1}. col: {word.capitalize()}")
 
     print()
+    return set(), set()
 
 def build_lps_list(pattern: str) -> list[int]:
     """
