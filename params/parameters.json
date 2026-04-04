@@ -1,0 +1,43 @@
+{
+  "buildTable": true,
+  "useKMP": true,
+  "minDimensionX": 20,
+  "minDimensionY": 15,
+  "directions": [
+        "HORIZONTAL",
+        "VERTICAL",
+        "DIAGONAL"
+    ],
+  "insert_directions": [
+        "HORIZONTAL",
+        "VERTICAL",
+        "DIAGONAL"
+    ],
+  "requiredWords": [
+        "Gulyás",
+        "Pörkölt",
+        "Halászlé",
+        "Főzelék",
+        "Tarhonya",
+        "Kifli",
+        "Szalámi",
+        "ABCaabDdabc"
+    ],
+  "words": [
+        "Gulyás",
+        "Pörkölt",
+        "Halászlé",
+        "Somlói",
+        "Dobos",
+        "Rétes",
+        "Paprikás",
+        "Galuska",
+        "Pogácsa",
+        "Lecsó",
+        "Főzelék",
+        "Tarhonya",
+        "Kifli",
+        "Szalámi",
+        "ABCaabDdabc"
+    ]
+}
